@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+    <title>Tap Beras</title>
+    <link rel="stylesheet" href="styles/index.css">
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-3.5.1.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<style type="text/css">
+		.large-text {
+			font-size: xx-large;
+		}
+		.bold-text {
+			font-weight: 500;
+		}
+
+		.subsidi {
+			margin-top: 20px;
+		}
+
+		.btn {
+			/*max-width: 100%;*/
+			font-size: small;
+		}
+
+		body {    
+		    margin: 0 !important;
+		    padding: 0 !important;
+		    background-image: url('styles/batik3.jpg');
+		    min-width: -webkit-fill-available;
+		}
+		.center {
+		  margin: auto;
+		  width: 34%;
+		  padding: 10px;
+		}
+
+		.welcome {
+			text-align: center;
+			color: white;
+		}
+
+		.button-group {
+			margin-top: 10px;
+		}
+
+		.btn-login-admin {
+			width: 40%;
+		}
+
+		.admin-main-menu {
+			font-size: larger;
+			height: 50px;
+			margin-top: 10px;
+			width: 40%;
+			margin-right: 15px;
+		}
+
+
+	</style>
+  </head>
+  <body>
+	<div class="center">
+	  <img src="styles/raspberry.png" alt="raspberry">
+	</div>
+  	<div class="container">
+  		<div class="row">
+	  		<div class="col-md-12 welcome">
+	  			<h1 id="hello" class="bold-text large-text">Selamat Datang di ATM Beras</h1>
+	  		</div>
+
+	  		<div class="col-md-12 welcome">
+	  			<h3 id="tempelTeks">Selahkan tempelkan kartu anda</h3>
+	  		</div>
+	  		<div class="col-md-12 welcome">
+	  			<h3 id="idTeks">User ID</h3>
+	  		</div>
+
+	  		<div class="col-md-12 welcome" id="loginForm">
+	  			<form action="javascript:adminLogin()">
+		  			<div class="form-group center">
+					  <input type="text" class="form-control" id="userAdmin">
+					  <div class="button-group">
+						  <input type="submit" class="btn btn-success btn-login-admin" name="login-button" value="Masuk">
+					  </div>
+					</div>
+	  			</form>
+	  		</div>
+
+	  		<div class="col-md-12 welcome" id="pinForm">
+	  			<form action="javascript:pinLogin()">
+		  			<div class="form-group center">
+					  <input type="text" class="form-control" id="userPin">
+					  <div class="button-group">
+						  <input type="submit" class="btn btn-success btn-login-admin" name="login-button" value="Masuk">
+						  <button class="btn btn-default btn-login-admin">Batal</button>
+					  </div>
+					</div>
+	  			</form>
+	  		</div>
+
+	  		<div class="col-md-12 welcome" id="adminMainMenuDiv">
+	  			<div class="row">
+	  				<div class="button-group center">
+	  					<button class="btn btn-primary admin-main-menu">User</button>
+	  					<button class="btn btn-primary admin-main-menu">Parameter</button>
+	  				</div>
+	  			</div>
+	  			<div class="row">
+	  				<div class="button-group center">
+	  					<button class="btn btn-primary admin-main-menu">Transaksi</button>
+	  					<button class="btn btn-primary admin-main-menu">Opening Saldo</button>
+	  				</div>
+	  			</div>
+	  			<div class="row">
+	  				<div class="button-group center">
+	  					<button class="btn btn-primary admin-main-menu">Ubah PIN</button>
+	  					<button class="btn btn-primary admin-main-menu">History</button>
+	  				</div>
+	  			</div>
+	  			<div class="row">
+	  				<div class="button-group center">
+	  					<button class="btn btn-primary admin-main-menu">Selesai</button>
+	  				</div>
+	  			</div>
+	  		</div>
+	  		<!-- <div class="col-md-2">
+	  			<input style="float: right; max-width: 70%;" type="image" id="image-plus" alt="plus" onclick="closeWindow()" src="poweroff.png">
+	  		</div> -->
+	  		<!-- <div class="col-md-12">
+	  			<p class="large-text">Silahkan tempelkan Kartu anda.</p>
+	  		</div> -->
+  		</div>
+  		<div id="userdiv" class="col-md-12">
+    		<p id="userKuota" class="bold-text large-text">Sisa kuota beras anda: 0 Kg</p>
+  		</div>
+  		<div id="admindiv">
+  			<div id="mainmenu" class="row col-md-12">
+  				<div class="col-md-3">
+			    	<button class="btn btn-success btn-xs" onclick="gotoSubsidi()">Pengaturan<br>Subsidi</button>
+  				</div>
+  				<div class="col-md-3">
+			    	<button class="btn btn-info btn-xs" onclick="gotoTambahKartu()">Penambahan<br>Kartu</button>
+  				</div>
+  				<div class="col-md-3">
+			    	<button class="btn btn-primary btn-xs" onclick="gotoKosongTangki()">Pengosongan<br>Tangki</button>
+  				</div>
+  				<div class="col-md-3">
+			    	<button class="btn btn-success btn-xs" onclick="gotoTambahKuota()">Penambahan<br>Kuota</button>
+  				</div>
+  			</div>
+
+  			<div class="row col-md-12 subsidi" id="subsidi">
+			    <div class="col-md-3">
+			      <h3>Subsidi</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-minus" alt="plus" onclick="minusClick()" src="styles/minus48.png">
+			    </div>
+			    <div class="col-md-1">
+			      <h3 id="berasKuota" style="margin-top: 6px;">0</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-plus" alt="plus" onclick="plusClick()" src="styles/plus48.png">
+			    </div>
+			    <div class="col-md-4">
+			    	<button class="btn btn-success" onclick="saveSubsidi()">Simpan</button>
+			    </div>
+  			</div>
+  			<div class="row col-md-12 subsidi" id="tambahKartu">
+			    <div class="col-md-6">
+			    	<h3>Tambah Kartu</h3>
+			    </div>
+			    <div class="col-md-6">
+			    	<button class="btn btn-success" onclick="saveTambahKartu()">Tambah</button>
+			    </div>
+  			</div>
+  			<div class="row col-md-12 subsidi" id="kosongTangki">
+			    <div class="col-md-7">
+			    	<h3>Kosongkan Tangki</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<button class="btn btn-success" onclick="startKosongkan()">Start</button>
+			    </div>
+			    <div class="col-md-2">
+			    	<button class="btn btn-danger" onclick="stopKosongkan()">Stop</button>
+			    </div>
+  			</div>
+  			<div class="row col-md-12 subsidi" id="tambahKuota">
+			    <div class="col-md-3">
+			      <h3>Kuota</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-minus" alt="plus" onclick="minusKuota()" src="styles/minus48.png">
+			    </div>
+			    <div class="col-md-1">
+			      <h3 id="newKuota" style="margin-top: 6px;">0</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-plus" alt="plus" onclick="plusKuota()" src="styles/plus48.png">
+			    </div>
+			    <div class="col-md-4">
+			    	<button class="btn btn-success" onclick="saveTambahKuota()">Tambah</button>
+			    </div>
+  			</div>
+  			<div class="col-md-12 subsidi">
+  				<button class="btn btn-primary btn-xs" onclick="gotoAdminSelesai()">Selesai</button>
+  			</div>
+  		</div>
+  	</div>
+  </body>
+  <script type="text/javascript">
+	// var ipcRenderer = require('electron').ipcRenderer;
+	const remote = require('electron').remote
+  	var berasCount = 0;
+  	var newKuota = 0;
+  	$('#userdiv').hide()
+  	$('#admindiv').hide()
+  	$('#pinForm').hide()
+  	$('#adminMainMenuDiv').hide()
+
+  	$('#subsidi').hide()
+  	$('#tambahKartu').hide()
+  	$('#kosongTangki').hide()
+  	$('#tambahKuota').hide()
+  	// $('#berasKuota').text(berasCount);
+  	console.log(berasCount)
+
+  	function closeWindow() {
+  		console.log('closing')
+  		remote.getCurrentWindow().close()
+  	}
+
+  	function gotoSubsidi () {
+  		$('#tambahKartu').hide();
+  		$('#tambahKuota').hide()
+  		$('#kosongTangki').hide();
+  		$('#subsidi').show();
+  	}
+
+  	function gotoTambahKartu () {
+  		$('#kosongTangki').hide();
+  		$('#tambahKuota').hide()
+  		$('#subsidi').hide();
+  		$('#tambahKartu').show();
+  	}
+
+  	function gotoKosongTangki () {
+  		$('#kosongTangki').show();
+  		$('#subsidi').hide();
+  		$('#tambahKartu').hide();
+  		$('#tambahKuota').hide()
+  	}
+
+  	function gotoTambahKuota () {
+  		$('#kosongTangki').hide();
+  		$('#subsidi').hide();
+  		$('#tambahKartu').hide();
+  		$('#tambahKuota').show()
+  	}
+
+  	function saveTambahKartu () {
+  		console.log('saveTambahKartu')
+  	}
+
+  	function saveTambahKuota () {
+  		console.log('saveTambahKuota')
+  	}
+
+  	function gotoAdminSelesai () {
+  		$('#admindiv').hide()
+  	}
+
+  	function startKosongkan () {
+  		console.log('startKosongkan')
+  	}
+
+  	function stopKosongkan () {
+  		console.log('stopKosongkan')
+  	}
+
+	function minusKuota () {
+		if (newKuota > 0) {
+			newKuota--;
+		}
+		$('#newKuota').text(newKuota);
+	}
+
+	function plusKuota () {
+		newKuota++;
+		$('#newKuota').text(newKuota);
+	}
+
+	// ipcRenderer.on('store-data', function (event,store) {
+	//     $('#userKuota').text('Sisa kuota beras anda: ' + parseInt(store) + ' Kg')
+	// });
+
+	// ipcRenderer.on('alert', function (event,store) {
+	// 	if (store == 'beras-alert') {
+	// 		$('#userKuota').text('Beras hampir habis..')
+	// 		wait(5000)
+	// 		$('#userKuota').text('')
+	// 	} else {
+	// 		$('#userKuota').text('Kuota beras anda tidak mencukupi..')
+	// 		wait(5000)
+	// 		$('#userKuota').text('')
+	// 	}
+	// });
+
+	// ipcRenderer.on('admin-data', function (event,store) {
+	// 	$('#berasKuota').text(store)
+	// 	// berasCount = parseInt($('#berasKuota').text());
+	// });
+
+	// ipcRenderer.on('role-data', function (event,store) {
+	// 	console.log(store)
+	// 	if (store == 'admin') {
+	// 		$('#admindiv').show()
+	// 		$('#userdiv').hide()
+	// 	} else {
+	// 		$('#admindiv').hide()
+	// 		$('#userdiv').show()
+	// 	}
+	// });
+
+
+	function minusClick () {
+		if (berasCount > 0) {
+			berasCount = (berasCount - 1);
+		}
+		console.log(berasCount)
+		$('#berasKuota').text(berasCount);
+	}
+
+	function plusClick () {
+		berasCount = (berasCount + 1);
+		console.log(berasCount)
+		$('#berasKuota').text(berasCount);
+	}
+
+	function saveSubsidi () {
+		$('#subsidi').hide()
+		// $('#userdiv').show()
+		// $('#userKuota').text('');
+		ipcRenderer.send('kuota', $('#berasKuota').text());
+	}
+
+
+	function wait(ms){
+	   var start = new Date().getTime();
+	   var end = start;
+	   while(end < start + ms) {
+	     end = new Date().getTime();
+	  }
+	}
+
+	var form = document.getElementById('pinForm');
+	form.onsubmit = function() {
+	    form.target = '_self';
+	};
+
+	// document.getElementById('btn2').onclick = function() {
+	//     form.target = '_blank';
+	//     form.submit();
+	// }
+
+	function adminLogin() {
+		var adminTeks = $('#userAdmin').val();
+		// if (adminTeks == 'admin') {
+			$('#tempelTeks').text('Selamat datang ' + $('#userAdmin').val())
+			$('#idTeks').text('Masukan Pin anda')
+			$('#loginForm').hide()
+			$('#pinForm').show()
+		// }
+	}
+
+	function pinLogin () {
+		console.log('pin')
+		var adminTeks = $('#userPin').val();
+		// $('#tempelTeks').text('Selamat datang ' + $('#userPin').val())
+		$('#tempelTeks').hide()
+		$('#idTeks').hide()
+		$('#loginForm').hide()
+		$('#pinForm').hide()
+		$('#adminMainMenuDiv').show()
+	}
+
+  </script>
+</html>
