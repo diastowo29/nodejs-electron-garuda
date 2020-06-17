@@ -241,7 +241,11 @@
 	}*/
 
 	ipcRenderer.on('hide-welcome', function (event,store) {
-	    $('#welcome-text').hide();
+		if (store) {
+	    	$('#welcome-text').hide();
+		} else {
+	    	$('#welcome-text').show();
+		}
 	});
 
 	ipcRenderer.on('general-info', function (event,store) {

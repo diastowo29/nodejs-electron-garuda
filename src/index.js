@@ -159,7 +159,6 @@ function startRfid () {
   if (bufferOriginal.toString('utf8').includes("admn")) {
     mainWindow.webContents.send('role-data', "admin");
   } else {
-    mainWindow.webContents.send('role-data', "user");
     if (configuringKuotaFlag) {
       rfid_table.findAll({
         where: {
@@ -180,7 +179,8 @@ function startRfid () {
             kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
             wait(waitTime);
-            mainWindow.webContents.send('hide-welcome', '');
+            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('hide-welcome', true);
             restartRfid();
           })
         } else {
@@ -196,12 +196,14 @@ function startRfid () {
             kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
             wait(waitTime);
-            mainWindow.webContents.send('hide-welcome', '');
+            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('hide-welcome', true);
             restartRfid();
           });
         }
       })
     } else {
+      mainWindow.webContents.send('role-data', "user");
       rfid_table.findAll({
         where: {
           id_kartu: cardID
@@ -210,7 +212,7 @@ function startRfid () {
         if (rfid_table_find.length > 0) {
           console.log('card found')
           var cardPeriod = rfid_table_find[0].period;
-          var cardLastTap = rfid_table_find[0].updatedAt;
+          var cardLastTap = rfid_table_find[0].last_tap;
           if (compareDate(cardLastTap)) {
             console.log("=== THIS CARD PERIOD: " + cardPeriod);
             rfid_table.update({
@@ -384,22 +386,27 @@ function wait(ms){
   }
 }
 
-function compareDate (cardDate) {
-  var cardDateSplit = cardDate.toString().split(/[- :]/);
-  var newCardDate = new Date(Date.UTC(cardDateSplit[0], cardDateSplit[1]-1, cardDateSplit[2], cardDateSplit[3], cardDateSplit[4], cardDateSplit[5]));
+function compareDate (lastTapDate) {
+  var lastTapDateSplit = lastTapDate.toString().split(/[- :]/);
+  var lastTap = new Date(Date.UTC(cardDateSplit[0], cardDateSplit[1]-1, cardDateSplit[2], cardDateSplit[3], cardDateSplit[4], cardDateSplit[5]));
   var now = new Date();
+
+  console.log(now)
+  console.log(lastTap)
 
   var getBeras = false;
 
-  if (newCardDate.getDate() == now.getDate()) {
-    if (newCardDate.getMonth() == now.getMonth()) {
-      if (newCardDate.getFullYear() == now.getFullYear()) {
+  if (lastTap.getDate() == now.getDate()) {
+    if (lastTap.getMonth() == now.getMonth()) {
+      if (lastTap.getFullYear() == now.getFullYear()) {
         getBeras = false;
       }
     }
   } else {
     getBeras = true;
   }
+
+  console.log('getBeras: %s', getBeras)
 
   return getBeras;
 }
