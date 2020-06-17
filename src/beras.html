@@ -143,11 +143,9 @@
   	var newKuota = 0;
   	var berasCount = 0;
 
-  	$('#admindiv').show()
-  	$('#image-onoff').show()
+  	// $('#admindiv').show()
 
-  	// $('#admindiv').hide()
-  	// $('#image-onoff').hide()
+  	$('#admindiv').hide()
   	$('#userdiv').hide()
 
   	// $('#subsidi').hide()
@@ -225,7 +223,6 @@
 
   	function gotoAdminSelesai () {
   		$('#admindiv').hide();
-  		$('#image-onoff').hide();
 		$('#welcome-text').show()
   		$('#tambah-kartu-guide').hide();
 		ipcRenderer.send('restart-rfid', false);
@@ -281,13 +278,9 @@
 		console.log(store)
 		if (store == 'admin') {
 			$('#admindiv').show()
-			$('#userdiv').hide()
-			$('#image-onoff').show()
 			$('#welcome-text').hide()
 		} else {
 			$('#admindiv').hide()
-			$('#userdiv').show()
-			$('#image-onoff').hide()
 			$('#welcome-text').show()
 		}
 	});

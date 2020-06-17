@@ -8,6 +8,7 @@ module.exports = (sequelize, type) => {
         id_kartu: type.STRING(510),
         status_kartu: type.STRING(510),
         nama_kartu: type.STRING(510),
+        last_tap: type.DATE,
         period: type.INTEGER
     })
 }

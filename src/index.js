@@ -135,10 +135,7 @@ function startRfid () {
     return;
   }
   const uid = response.data;
-  console.log('==== CARD UID: %s', uid);
-  let idBuffer = Buffer.from(uid);
-  console.log('==== IDBUFFER: %s', idBuffer);
-  let cardID = idBuffer.toString('utf8');
+  let cardID = uid.toString();
   console.log('===== Card ID: ' + cardID);
 
   //# Select the scanned card
@@ -187,10 +184,12 @@ function startRfid () {
             restartRfid();
           })
         } else {
+          var now = new Date();
           rfid_table.create({
             id_kartu: cardID,
             status_kartu: 'AKTIF',
             nama_kartu: 'USER',
+            last_tap: now,
             period: kuotaConfigured
           }).then(rfid_table_insert => {
             configuringKuotaFlag = false;
@@ -209,7 +208,7 @@ function startRfid () {
         }
       }).then(rfid_table_find => {
         if (rfid_table_find.length > 0) {
-          // console.log('card found')
+          console.log('card found')
           var cardPeriod = rfid_table_find[0].period;
           var cardLastTap = rfid_table_find[0].updatedAt;
           if (compareDate(cardLastTap)) {
