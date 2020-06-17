@@ -385,7 +385,7 @@ function wait(ms){
 }
 
 function compareDate (cardDate) {
-  var cardDateSplit = cardDate.split(/[- :]/);
+  var cardDateSplit = cardDate.toString().split(/[- :]/);
   var newCardDate = new Date(Date.UTC(cardDateSplit[0], cardDateSplit[1]-1, cardDateSplit[2], cardDateSplit[3], cardDateSplit[4], cardDateSplit[5]));
   var now = new Date();
 
