@@ -388,18 +388,18 @@ function wait(ms){
 
 function compareDate (lastTapDate) {
   console.log(lastTapDate)
-  var lastTapDateSplit = lastTapDate.toString().split(/[- :]/);
-  var lastTap = new Date(Date.UTC(lastTapDateSplit[0], lastTapDateSplit[1]-1, lastTapDateSplit[2], lastTapDateSplit[3], lastTapDateSplit[4], lastTapDateSplit[5]));
+  // var lastTapDateSplit = lastTapDate.toString().split(/[- :]/);
+  // var lastTap = new Date(Date.UTC(lastTapDateSplit[0], lastTapDateSplit[1]-1, lastTapDateSplit[2], lastTapDateSplit[3], lastTapDateSplit[4], lastTapDateSplit[5]));
   var now = new Date();
 
   console.log(now)
-  console.log(lastTap)
+  console.log(lastTapDate)
 
   var getBeras = false;
 
-  if (lastTap.getDate() == now.getDate()) {
-    if (lastTap.getMonth() == now.getMonth()) {
-      if (lastTap.getFullYear() == now.getFullYear()) {
+  if (lastTapDate.getDate() == now.getDate()) {
+    if (lastTapDate.getMonth() == now.getMonth()) {
+      if (lastTapDate.getFullYear() == now.getFullYear()) {
         getBeras = false;
       }
     }
