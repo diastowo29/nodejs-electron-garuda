@@ -226,6 +226,7 @@
   	function gotoAdminSelesai () {
   		$('#admindiv').hide();
   		$('#image-onoff').hide();
+		$('#welcome-text').show()
   		$('#tambah-kartu-guide').hide();
 		ipcRenderer.send('restart-rfid', false);
   	}
@@ -242,8 +243,12 @@
 		$('#newKuota').text(newKuota);
 	}*/
 
+	ipcRenderer.on('hide-welcome', function (event,store) {
+	    $('#welcome-text').hide();
+	});
 
 	ipcRenderer.on('general-info', function (event,store) {
+	    $('#welcome-text').show();
 	    $('#welcome-text').text(store);
 	});
 

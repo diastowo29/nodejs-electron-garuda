@@ -183,7 +183,7 @@ function startRfid () {
             kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
             wait(waitTime);
-            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('hide-welcome', '');
             restartRfid();
           })
         } else {
@@ -197,7 +197,7 @@ function startRfid () {
             kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
             wait(waitTime);
-            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('hide-welcome', '');
             restartRfid();
           });
         }
