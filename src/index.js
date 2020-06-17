@@ -162,6 +162,7 @@ function startRfid () {
   if (bufferOriginal.toString('utf8').includes("admn")) {
     mainWindow.webContents.send('role-data', "admin");
   } else {
+    mainWindow.webContents.send('role-data', "user");
     if (configuringKuotaFlag) {
       rfid_table.findAll({
         where: {
