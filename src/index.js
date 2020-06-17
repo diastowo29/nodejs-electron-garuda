@@ -182,7 +182,7 @@ function startRfid () {
             wait(waitTime);
             mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             mainWindow.webContents.send('hide-welcome', true);
-            restartRfid();
+            // restartRfid();
           })
         } else {
           rfid_table.create({
@@ -197,7 +197,7 @@ function startRfid () {
             wait(waitTime);
             mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             mainWindow.webContents.send('hide-welcome', true);
-            restartRfid();
+            // restartRfid();
           });
         }
       })
@@ -212,7 +212,13 @@ function startRfid () {
           console.log('card found')
           var cardPeriod = rfid_table_find[0].period;
           var cardLastTap = rfid_table_find[0].last_tap;
-          if (compareDate(cardLastTap)) {
+          var getBeras = false;
+          if (cardLastTap === null) {
+            getBeras = true;
+          } else {
+            getBeras = compareDate(cardLastTap);
+          }
+          if (getBeras) {
             console.log("=== THIS CARD PERIOD: " + cardPeriod);
             rfid_table.update({
               status_kartu: 'AKTIF',
