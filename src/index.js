@@ -95,6 +95,22 @@ ipcMain.on('restart-rfid', function(event, data) {
   restartRfid();
 });
 
+ipcMain.on('kosongkan-tangki', function(event, data) {
+  startKosongkanTangki = data
+  var rotateInterval;
+  if (startKosongkanTangki) {
+    console.log("STEPPER ROTATING");
+    pinEnable.writeSync(0)
+    pinDir.writeSync(1)
+    rotateInterval = setInterval(rotateStepper, 10);
+  } else {
+    wait(1000);
+    pinEnable.writeSync(1)
+    clearInterval(rotateInterval);
+  }
+
+});
+
 var rfidInterval = setInterval(startRfid, 500);
 // var sonicInterval = setInterval(startScanSonic, 500);
 
@@ -123,6 +139,7 @@ function startRfid () {
     return;
   }
   const uid = response.data;
+  console.log('==== CARD UID: %s', uid)
   let idBuffer = Buffer.from(uid);
   let cardID = idBuffer.toString('utf8');
   console.log('===== Card ID: ' + cardID);
@@ -165,8 +182,10 @@ function startRfid () {
             }
           }).then(rfid_table_update => {
             configuringKuotaFlag = false;
+            kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
             wait(3000);
+            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             restartRfid();
           })
         } else {
@@ -177,8 +196,10 @@ function startRfid () {
             period: kuotaConfigured
           }).then(rfid_table_insert => {
             configuringKuotaFlag = false;
+            kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
             wait(3000);
+            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             restartRfid();
           });
         }
@@ -190,15 +211,41 @@ function startRfid () {
         }
       }).then(rfid_table_find => {
         if (rfid_table_find.length > 0) {
-          console.log('card found')
+          // console.log('card found')
           var cardPeriod = rfid_table_find[0].period;
-          console.log("=== THIS CARD PERIOD: " + cardPeriod);
-          wait(3000);
-          restartRfid();
+          var cardLastTap = rfid_table_find[0].updatedAt;
+          if (compareDate(cardLastTap)) {
+            console.log("=== THIS CARD PERIOD: " + cardPeriod);
+            rfid_table.update({
+              status_kartu: 'AKTIF',
+              nama_kartu: 'USER',
+            }, {
+              where: {
+                id_kartu: cardID
+              }
+            }).then(rfid_table_update => {
+              configuringKuotaFlag = false;
+              kuotaConfigured = 0;
+              mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardPeriod + ' Liter/hari');
+
+              // pinEnable.writeSync(0);
+              // wait(925*12*cardPeriod);
+              // pinEnable.writeSync(1);
+
+              mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+              restartRfid();
+            })
+          } else {
+            mainWindow.webContents.send('general-info', 'Anda telah mendapat beras hari ini..');
+            wait(3000);
+            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            restartRfid();
+          }
         } else {
-          console.log('card not registered')
+          // console.log('card not registered')
           mainWindow.webContents.send('general-info', 'Kartu tidak terdaftar...');
           wait(3000);
+          mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
           restartRfid();
         }
       })
@@ -338,4 +385,24 @@ function wait(ms){
    while(end < start + ms) {
      end = new Date().getTime();
   }
+}
+
+function compareDate (cardDate) {
+  var cardDateSplit = cardDate.split(/[- :]/);
+  var newCardDate = new Date(Date.UTC(cardDateSplit[0], cardDateSplit[1]-1, cardDateSplit[2], cardDateSplit[3], cardDateSplit[4], cardDateSplit[5]));
+  var now = new Date();
+
+  var getBeras = false;
+
+  if (newCardDate.getDate() == now.getDate()) {
+    if (newCardDate.getMonth() == now.getMonth()) {
+      if (newCardDate.getFullYear() == now.getFullYear()) {
+        getBeras = false;
+      }
+    }
+  } else {
+    getBeras = true;
+  }
+
+  return getBeras;
 }
