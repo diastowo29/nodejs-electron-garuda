@@ -190,12 +190,16 @@ function startRfid () {
         }
       }).then(rfid_table_find => {
         if (rfid_table_find.length > 0) {
+          console.log('card found')
           var cardPeriod = rfid_table_find[0].period;
           console.log("=== THIS CARD PERIOD: " + cardPeriod);
           wait(3000);
           restartRfid();
         } else {
+          console.log('card not registered')
           mainWindow.webContents.send('general-info', 'Kartu tidak terdaftar...');
+          wait(3000);
+          restartRfid();
         }
       })
     }
