@@ -4,7 +4,7 @@ const rfidModel = require('./models/rfid')
 var sequelize_db;
 
 if (process.env.DATABASE_URL === undefined) {
-	sequelize_db = new Sequelize('atm_beras', 'root', '', {
+	sequelize_db = new Sequelize('atm_beras', 'root', '46Password', {
 	  host: 'localhost',
 	  dialect: 'mysql'
 	});
