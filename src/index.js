@@ -189,7 +189,6 @@ function startRfid () {
             id_kartu: cardID,
             status_kartu: 'AKTIF',
             nama_kartu: 'USER',
-            last_tap: now,
             period: kuotaConfigured
           }).then(rfid_table_insert => {
             configuringKuotaFlag = false;
