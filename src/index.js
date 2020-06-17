@@ -388,7 +388,7 @@ function wait(ms){
 
 function compareDate (lastTapDate) {
   var lastTapDateSplit = lastTapDate.toString().split(/[- :]/);
-  var lastTap = new Date(Date.UTC(cardDateSplit[0], cardDateSplit[1]-1, cardDateSplit[2], cardDateSplit[3], cardDateSplit[4], cardDateSplit[5]));
+  var lastTap = new Date(Date.UTC(lastTapDateSplit[0], lastTapDateSplit[1]-1, lastTapDateSplit[2], lastTapDateSplit[3], lastTapDateSplit[4], lastTapDateSplit[5]));
   var now = new Date();
 
   console.log(now)
