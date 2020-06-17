@@ -159,6 +159,7 @@ function startRfid () {
   if (bufferOriginal.toString('utf8').includes("admn")) {
     mainWindow.webContents.send('role-data', "admin");
   } else {
+    var now = new Date();
     if (configuringKuotaFlag) {
       rfid_table.findAll({
         where: {
@@ -184,7 +185,6 @@ function startRfid () {
             restartRfid();
           })
         } else {
-          var now = new Date();
           rfid_table.create({
             id_kartu: cardID,
             status_kartu: 'AKTIF',
@@ -218,6 +218,7 @@ function startRfid () {
             rfid_table.update({
               status_kartu: 'AKTIF',
               nama_kartu: 'USER',
+              last_tap: now,
             }, {
               where: {
                 id_kartu: cardID
