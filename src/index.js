@@ -106,7 +106,7 @@ function startRfid () {
 
   let response = mfrc522.findCard();
   if (!response.status) {
-    console.log("No Card");
+    console.log("No Card configuringKuotaFlag: %s kuotaConfigured: %s", configuringKuotaFlag, kuotaConfigured);
     return;
   } else {
     // STOP SCANNING ANOTHER CARD
