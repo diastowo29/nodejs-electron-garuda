@@ -9,6 +9,7 @@ const SoftSPI = require("rpi-softspi");
 var Gpio = require('onoff').Gpio;
 const ipcMain = require('electron').ipcMain;
 
+let waitTime = 3000;
 // var pinEnable = new Gpio(13, 'out');
 // var pinDir = new Gpio(19, 'out');
 // var pinPulse = new Gpio(21, 'out');
@@ -97,16 +98,11 @@ ipcMain.on('restart-rfid', function(event, data) {
 
 ipcMain.on('kosongkan-tangki', function(event, data) {
   startKosongkanTangki = data
-  var rotateInterval;
   if (startKosongkanTangki) {
     console.log("STEPPER ROTATING");
-    pinEnable.writeSync(0)
-    pinDir.writeSync(1)
-    rotateInterval = setInterval(rotateStepper, 10);
+    // pinEnable.writeSync(0)
   } else {
-    wait(1000);
-    pinEnable.writeSync(1)
-    clearInterval(rotateInterval);
+    // pinEnable.writeSync(1)
   }
 
 });
@@ -139,8 +135,9 @@ function startRfid () {
     return;
   }
   const uid = response.data;
-  console.log('==== CARD UID: %s', uid)
+  console.log('==== CARD UID: %s', uid);
   let idBuffer = Buffer.from(uid);
+  console.log('==== IDBUFFER: %s', idBuffer);
   let cardID = idBuffer.toString('utf8');
   console.log('===== Card ID: ' + cardID);
 
@@ -184,7 +181,7 @@ function startRfid () {
             configuringKuotaFlag = false;
             kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
-            wait(3000);
+            wait(waitTime);
             mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             restartRfid();
           })
@@ -198,7 +195,7 @@ function startRfid () {
             configuringKuotaFlag = false;
             kuotaConfigured = 0;
             mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
-            wait(3000);
+            wait(waitTime);
             mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             restartRfid();
           });
@@ -227,7 +224,7 @@ function startRfid () {
               configuringKuotaFlag = false;
               kuotaConfigured = 0;
               mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardPeriod + ' Liter/hari');
-
+              wait(waitTime);
               // pinEnable.writeSync(0);
               // wait(925*12*cardPeriod);
               // pinEnable.writeSync(1);
@@ -237,14 +234,14 @@ function startRfid () {
             })
           } else {
             mainWindow.webContents.send('general-info', 'Anda telah mendapat beras hari ini..');
-            wait(3000);
+            wait(waitTime);
             mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             restartRfid();
           }
         } else {
           // console.log('card not registered')
           mainWindow.webContents.send('general-info', 'Kartu tidak terdaftar...');
-          wait(3000);
+          wait(waitTime);
           mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
           restartRfid();
         }
