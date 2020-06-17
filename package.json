@@ -47,7 +47,12 @@
   "dependencies": {
     "electron-db": "^1.0.0",
     "electron-squirrel-startup": "^1.0.0",
-    "ip": "^1.1.5"
+    "ip": "^1.1.5",
+    "mfrc522-rpi": "^2.1.2",
+    "mysql2": "^2.1.0",
+    "onoff": "^6.0.0",
+    "rpi-softspi": "^1.0.5",
+    "sequelize": "^5.21.13"
   },
   "devDependencies": {
     "@electron-forge/cli": "6.0.0-beta.51",

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta charset="UTF-8">
+    <title>Tap Beras</title>
+    <link rel="stylesheet" href="styles/index.css">
+	<link rel="stylesheet" href="styles/bootstrap.min.css">
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery-3.5.1.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style type="text/css">
+		.large-text {
+			font-size: xx-large;
+		}
+		.bold-text {
+			font-weight: 500;
+		}
+
+		.subsidi {
+			margin-top: 20px;
+		}
+
+		.btn {
+			/*max-width: 100%;*/
+			font-size: small;
+		}
+
+		.center {
+			text-align: center;
+		}
+
+		.main-title {
+			font-family: fantasy;
+			font-weight: 500;
+			font-size: xxx-large;
+		}
+
+		.admin-btn {
+			text-align: center;
+			width: 100px;
+		}
+
+		body {
+		    min-width: -webkit-fill-available;
+		}
+	</style>
+  </head>
+ <body style="background-image: url('garuda.png');">
+  	<div class="container">
+  		<div class="row">
+	  		<div class="col-md-12 center">
+	  			<h1 id="hello" class="main-title">ATM Beras</h1>
+	  		</div>
+	  		<div class="col-md-12 center">
+	  			<p class="large-text" id="welcome-text">Silahkan tempelkan Kartu anda.</p>
+	  		</div>
+  		</div>
+  		<div id="userdiv" class="col-md-12">
+    		<p id="userKuota" class="bold-text large-text">Sisa kuota beras anda: 0 Kg</p>
+  		</div>
+  		<div id="admindiv">
+  			<div id="mainmenu" class="col-md-12">
+  				<!-- <div class="col-md-3">
+			    	<button class="btn btn-success btn-xs" onclick="gotoSubsidi()">Pengaturan<br>Subsidi</button>
+  				</div> -->
+  				<div class="col-md-12" style="text-align: center;">
+			    	<button class="btn btn-primary btn-xs admin-btn" onclick="gotoTambahKartu()">Pengaturan<br>Kuota</button>
+			    	<button class="btn btn-primary btn-xs admin-btn" onclick="gotoKosongTangki()">Pengosongan<br>Tangki</button>
+			    	<button class="btn btn-danger btn-xs admin-btn" onclick="closeWindow()">Tutup<br>Aplikasi</button>
+  				</div>
+  				<!-- <div class="col-md-3">
+			    	<button class="btn btn-success btn-xs" onclick="gotoTambahKuota()">Penambahan<br>Kuota</button>
+  				</div> -->
+  			</div>
+
+  			<!-- <div class="row col-md-12 subsidi" id="subsidi">
+			    <div class="col-md-3">
+			      <h3>Subsidi</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-minus" alt="plus" onclick="minusClick()" src="styles/minus48.png">
+			    </div>
+			    <div class="col-md-1">
+			      <h3 id="berasKuota" style="margin-top: 6px;">0</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-plus" alt="plus" onclick="plusClick()" src="styles/plus48.png">
+			    </div>
+			    <div class="col-md-4">
+			    	<button class="btn btn-success" onclick="saveSubsidi()">Simpan</button>
+			    </div>
+  			</div> -->
+  			<div class="col-md-12 subsidi" id="tambahKartu">
+			    <div class="col-md-12 center">
+			    	<h3>Atur Kuota</h3>
+			    </div>
+			    <div class="col-md-12 center">
+			    	<button class="btn btn-success" onclick="saveTambahKartu(1)">1 Liter / Hari</button>
+			    	<button class="btn btn-success" onclick="saveTambahKartu(2)">2 Liter / Hari</button>
+			    	<button class="btn btn-success" onclick="saveTambahKartu(3)">3 Liter / Hari</button>
+			    	<button class="btn btn-success" onclick="saveTambahKartu(4)">4 Liter / Hari</button>
+			    	<button class="btn btn-success" onclick="saveTambahKartu(5)">5 Liter / Hari</button>
+			    </div>
+  			</div>
+  			<div class="col-md-12 subsidi" id="kosongTangki">
+			    <div class="col-md-12 center">
+			    	<h3>Kosongkan Tangki</h3>
+			    </div>
+			    <div class="col-md-12 center">
+			    	<button class="btn btn-success" onclick="startKosongkan()">Start</button>
+			    	<button class="btn btn-danger" onclick="stopKosongkan()">Stop</button>
+			    </div>
+  			</div>
+  			<!-- <div class="row col-md-12 subsidi" id="tambahKuota">
+			    <div class="col-md-3">
+			      <h3>Kuota</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-minus" alt="plus" onclick="minusKuota()" src="styles/minus48.png">
+			    </div>
+			    <div class="col-md-1">
+			      <h3 id="newKuota" style="margin-top: 6px;">0</h3>
+			    </div>
+			    <div class="col-md-2">
+			    	<input type="image" id="image-plus" alt="plus" onclick="plusKuota()" src="styles/plus48.png">
+			    </div>
+			    <div class="col-md-4">
+			    	<button class="btn btn-success" onclick="saveTambahKuota()">Tambah</button>
+			    </div>
+  			</div> -->
+  			<div class="col-md-12 center">
+  				<p class="large-text" id="tambah-kartu-guide">Silahkan tempel kartu</p>
+  			</div>
+  			<div class="col-md-12 subsidi center">
+  				<button class="btn btn-info btn-xs" onclick="gotoAdminSelesai()">Selesai</button>
+  			</div>
+  		</div>
+  	</div>
+  </body>
+  <script type="text/javascript">
+	const remote = require('electron').remote
+	var ipcRenderer = require('electron').ipcRenderer;
+  	var newKuota = 0;
+  	var berasCount = 0;
+
+  	$('#admindiv').show()
+  	$('#image-onoff').show()
+
+  	// $('#admindiv').hide()
+  	// $('#image-onoff').hide()
+  	$('#userdiv').hide()
+
+  	// $('#subsidi').hide()
+  	$('#tambahKartu').hide()
+  	$('#kosongTangki').hide()
+  	$('#tambah-kartu-guide').hide()
+
+  	// $('#tambahKuota').hide()
+  	// $('#berasKuota').text(berasCount);
+  	console.log(berasCount)
+  	
+  	function closeWindow() {
+  		var r = confirm("Apa anda yakin keluar aplikasi?");
+		if (r == true) {
+		  remote.getCurrentWindow().close()
+		  console.log('closing')
+		} else {
+		  console.log('cancel')
+		}
+  	}
+
+  	/*function gotoSubsidi () {
+  		$('#tambahKartu').hide();
+  		$('#tambahKuota').hide()
+  		$('#kosongTangki').hide();
+  		$('#subsidi').show();
+  	}*/
+
+  	function gotoTambahKartu () {
+  		$('#kosongTangki').hide();
+  		$('#tambahKartu').show();
+  		$('#tambah-kartu-guide').hide();
+  		// $('#tambahKuota').hide()
+  		// $('#subsidi').hide();
+
+		ipcRenderer.send('beras-state', false);
+  	}
+
+  	function gotoKosongTangki () {
+  		$('#kosongTangki').show();
+  		$('#tambahKartu').hide();
+  		$('#tambah-kartu-guide').hide()
+  		// $('#subsidi').hide();
+  		// $('#tambahKuota').hide()
+  	}
+
+  	/*function gotoTambahKuota () {
+  		$('#kosongTangki').hide();
+  		$('#subsidi').hide();
+  		$('#tambahKartu').hide();
+  		$('#tambahKuota').show()
+  	}*/
+
+  	function saveTambahKartu (period) {
+  		$('#tambah-kartu-guide').show()
+  		console.log('saveTambahKartu')
+		ipcRenderer.send('tambah-kartu', period);
+  	}
+
+  	function startKosongkan () {
+  		console.log('startKosongkan')
+		ipcRenderer.send('kosongkan-tangki', true);
+  	}
+
+  	function stopKosongkan () {
+  		console.log('stopKosongkan')
+		ipcRenderer.send('kosongkan-tangki', false);
+  	}
+
+  	/*function saveTambahKuota () {
+  		console.log('saveTambahKuota')
+		ipcRenderer.send('tambah-kuota', newKuota.toString());
+
+  	}*/
+
+  	function gotoAdminSelesai () {
+  		$('#admindiv').hide();
+  		$('#image-onoff').hide();
+  		$('#tambah-kartu-guide').hide();
+		ipcRenderer.send('restart-rfid', false);
+  	}
+
+	/*function minusKuota () {
+		if (newKuota > 0) {
+			newKuota--;
+		}
+		$('#newKuota').text(newKuota);
+	}
+
+	function plusKuota () {
+		newKuota++;
+		$('#newKuota').text(newKuota);
+	}*/
+
+
+	ipcRenderer.on('general-info', function (event,store) {
+	    $('#userKuota').text(store);
+	});
+
+	ipcRenderer.on('store-data', function (event,store) {
+	    $('#userKuota').text('Sisa kuota beras anda: ' + parseInt(store) + ' Kg')
+	});
+
+	ipcRenderer.on('alert', function (event,store) {
+		if (store == 'beras-alert') {
+			$('#userKuota').text('Beras hampir habis..')
+			// wait(5000)
+			// $('#userKuota').text('')
+		} else {
+			$('#userKuota').text('Kuota beras anda tidak mencukupi..')
+			// wait(5000)
+			// $('#userKuota').text('')
+		}
+	});
+
+	ipcRenderer.on('clear', function (event,store) {
+		$('#userKuota').text('')
+	});
+
+	ipcRenderer.on('admin-data', function (event,store) {
+		$('#berasKuota').text(store)
+		berasCount = parseInt($('#berasKuota').text());
+	});
+
+	ipcRenderer.on('role-data', function (event,store) {
+		console.log(store)
+		if (store == 'admin') {
+			$('#admindiv').show()
+			$('#userdiv').hide()
+			$('#image-onoff').show()
+			$('#welcome-text').hide()
+		} else {
+			$('#admindiv').hide()
+			$('#userdiv').show()
+			$('#image-onoff').hide()
+			$('#welcome-text').show()
+		}
+	});
+
+	/*function minusClick () {
+		if (berasCount > 0) {
+			berasCount--;
+		}
+		$('#berasKuota').text(berasCount);
+	}
+
+	function plusClick () {
+		berasCount++;
+		$('#berasKuota').text(berasCount);
+	}*/
+
+	/*function saveSubsidi () {
+		$('#admindiv').hide()
+		$('#userdiv').show()
+		$('#userKuota').text('');
+		ipcRenderer.send('kuota', $('#berasKuota').text());
+	}*/
+
+
+	function wait(ms){
+	   var start = new Date().getTime();
+	   var end = start;
+	   while(end < start + ms) {
+	     end = new Date().getTime();
+	  }
+	}
+
+  </script>
+</html>
