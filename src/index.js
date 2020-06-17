@@ -192,6 +192,8 @@ function startRfid () {
         if (rfid_table_find.length > 0) {
           var cardPeriod = rfid_table_find[0].period;
           console.log("=== THIS CARD PERIOD: " + cardPeriod);
+          wait(3000);
+          restartRfid();
         } else {
           mainWindow.webContents.send('general-info', 'Kartu tidak terdaftar...');
         }
