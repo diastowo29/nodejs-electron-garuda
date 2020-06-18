@@ -1,5 +1,4 @@
-var serialport = require("serialport"); 
-var SerialPort = serialport.SerialPort; 
+var SerialPort = require('serialport').SerialPort;
 
 var com = new SerialPort("/dev/ttyAMA0", {
     baudRate: 9600,
