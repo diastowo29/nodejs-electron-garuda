@@ -1,17 +1,24 @@
-const raspi = require('raspi');
-const Serial = require('raspi-serial').Serial;
+var serialport = require("serialport"); 
+var SerialPort = serialport.SerialPort; 
 
-raspi.init(() => {
-  var serial = new Serial();
-  serial.open(() => {
-    console.log('serial opening')
-    serial.on('data', (data) => {
-        console.log(data)
-      process.stdout.write(data);
-    });
-    console.log('sending data')
-    serial.write('Hello from raspi-serial', datasent => {
-        console.log(datasent)
-    });
-  });
+var com = new SerialPort("/dev/ttyAMA0", {
+    baudRate: 9600,
+    databits: 8,
+    parity: 'none'
+}, false);
+
+com.open(function (error) {
+    if (error) {
+        console.log('Error while opening the port ' + error);
+    } else {
+        console.log('CST port open');
+        com.write(1, function (err, result) {
+            if (err) {
+                console.log('Error while sending message : ' + err);
+            }
+            if (result) {
+                console.log('Response received after sending message : ' + result);
+            }    
+        });
+    }              
 });
