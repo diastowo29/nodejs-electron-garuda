@@ -10,6 +10,8 @@ raspi.init(() => {
       process.stdout.write(data);
     });
     console.log('sending data')
-    serial.write('Hello from raspi-serial');
+    serial.write('Hello from raspi-serial', datasent => {
+        console.log(datasent)
+    });
   });
 });
