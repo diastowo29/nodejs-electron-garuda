@@ -11,7 +11,7 @@ raspi.init(() => {
     serial.on('data', (data) => {
       process.stdout.write(data);
     });
-    serial.write(stringToSerial, (datasent) => {
+    serial.write("stringToSerial", (datasent) => {
     	console.log(datasent)
     });
   });
