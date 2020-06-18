@@ -1,6 +1,6 @@
 var SerialPort = require('serialport');
 
-var com = new SerialPort("/dev/ttyACM0", {
+var com = new SerialPort("/dev/ttyUSB0", {
     baudRate: 9600,
     databits: 8,
     parity: 'none'
