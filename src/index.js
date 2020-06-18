@@ -428,7 +428,7 @@ function compareDate (lastTapDate) {
 
   var getBeras = false;
 
-  console.log('day now: %s day last tap %s')
+  console.log('day now: %s day last tap %s', now.getDate(), lastTapDate.getDate())
 
   if (lastTapDate.getDate() == now.getDate()) {
     if (lastTapDate.getMonth() == now.getMonth()) {
