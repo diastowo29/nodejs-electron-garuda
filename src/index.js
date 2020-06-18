@@ -267,7 +267,7 @@ function startRfid () {
               restartRfid();
             })
           } else {
-            mainWindow.webContents.send('general-info', 'Anda telah mendapat beras hari ini..');
+            mainWindow.webContents.send('general-info', 'Anda telah mengambil beras hari ini..');
             wait(waitTime);
             mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
             restartRfid();
