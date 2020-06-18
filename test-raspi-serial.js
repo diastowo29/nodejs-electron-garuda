@@ -2,11 +2,13 @@ const raspi = require('raspi');
 const Serial = require('raspi-serial').Serial;
  
 raspi.init(() => {
-  var serial = new Serial();
+  var serial = new Serial({
+  	portId: "/dev/ttyACM0"
+  });
   serial.open(() => {
     serial.on('data', (data) => {
       process.stdout.write(data);
     });
-    serial.write('Hello from raspi-serial');
+    serial.write('a');
   });
 });
