@@ -9,6 +9,31 @@ const SoftSPI = require("rpi-softspi");
 var Gpio = require('onoff').Gpio;
 const ipcMain = require('electron').ipcMain;
 
+// ===== SONIC =====
+// const Gpio = require('pigpio').Gpio;
+// const MICROSECDONDS_PER_CM = 1e6/34321;
+// var distanceLeft = 0;
+
+// const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
+// const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
+
+// console.log('watch')
+// trigger.digitalWrite(0);
+
+// let startTick;
+
+// echo.on('alert', (level, tick) => {
+//   if (level == 1) {
+//     startTick = tick;
+//   } else {
+//     const endTick = tick;
+//     const diff = (endTick >> 0) - (startTick >> 0); // Unsigned 32 bit arithmetic
+//     console.log(diff / 2 / MICROSECDONDS_PER_CM);
+//     distanceLeft = diff / 2 / MICROSECDONDS_PER_CM;
+//   }
+// });
+// ===== SONIC =====
+
 let waitTime = 3000;
 // var pinEnable = new Gpio(13, 'out');
 // var pinDir = new Gpio(19, 'out');
@@ -108,7 +133,7 @@ ipcMain.on('kosongkan-tangki', function(event, data) {
 });
 
 var rfidInterval = setInterval(startRfid, 500);
-// var sonicInterval = setInterval(startScanSonic, 500);
+var sonicInterval = setInterval(startScanSonic, 1000);
 
 function restartRfid () {
   clearInterval(rfidInterval);
@@ -232,9 +257,10 @@ function startRfid () {
               configuringKuotaFlag = false;
               kuotaConfigured = 0;
               mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardPeriod + ' Liter/hari');
-              wait(waitTime);
+              // wait(waitTime);
+
               // pinEnable.writeSync(0);
-              // wait(925*12*cardPeriod);
+              wait(925*12*cardPeriod);
               // pinEnable.writeSync(1);
 
               mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
@@ -381,19 +407,18 @@ function startRfid () {
 }
 
 function startScanSonic () {
-  console.log('hai');
+  trigger.trigger(10, 1);
 }
 
 function wait(ms){
-   var start = new Date().getTime();
-   var end = start;
-   while(end < start + ms) {
-     end = new Date().getTime();
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
   }
 }
 
 function compareDate (lastTapDate) {
-  console.log(lastTapDate)
   // var lastTapDateSplit = lastTapDate.toString().split(/[- :]/);
   // var lastTap = new Date(Date.UTC(lastTapDateSplit[0], lastTapDateSplit[1]-1, lastTapDateSplit[2], lastTapDateSplit[3], lastTapDateSplit[4], lastTapDateSplit[5]));
   var now = new Date();
@@ -402,6 +427,8 @@ function compareDate (lastTapDate) {
   console.log(lastTapDate)
 
   var getBeras = false;
+
+  console.log('day now: %s day last tap %s')
 
   if (lastTapDate.getDate() == now.getDate()) {
     if (lastTapDate.getMonth() == now.getMonth()) {
@@ -412,8 +439,6 @@ function compareDate (lastTapDate) {
   } else {
     getBeras = true;
   }
-
-  console.log('getBeras: %s', getBeras)
-
+  // console.log('getBeras: %s', getBeras)
   return getBeras;
 }
