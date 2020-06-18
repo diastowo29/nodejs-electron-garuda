@@ -257,7 +257,7 @@ function startRfid () {
               configuringKuotaFlag = false;
               kuotaConfigured = 0;
               mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardPeriod + ' Liter/hari');
-              // wait(waitTime);
+              wait(waitTime);
 
               // pinEnable.writeSync(0);
               // wait(925*12*cardPeriod);
