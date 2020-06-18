@@ -260,7 +260,7 @@ function startRfid () {
               // wait(waitTime);
 
               // pinEnable.writeSync(0);
-              wait(925*12*cardPeriod);
+              // wait(925*12*cardPeriod);
               // pinEnable.writeSync(1);
 
               mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
