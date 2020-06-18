@@ -1,6 +1,6 @@
 var SerialPort = require('serialport');
 
-var com = new SerialPort("/dev/ttyAMA0", {
+var com = new SerialPort("/dev/ttyACM0", {
     baudRate: 9600,
     databits: 8,
     parity: 'none'
@@ -11,7 +11,7 @@ com.open(function (error) {
     //     console.log('Error while opening the port ' + error);
     // } else {
         console.log('CST port open');
-        com.write("1", function (err, result) {
+        com.write("a", function (err, result) {
             if (err) {
                 console.log('Error while sending message : ' + err);
             }
