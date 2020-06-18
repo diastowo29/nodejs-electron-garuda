@@ -8,11 +8,11 @@ const Mfrc522 = require("mfrc522-rpi");
 const SoftSPI = require("rpi-softspi");
 var Gpio = require('onoff').Gpio;
 const ipcMain = require('electron').ipcMain;
+var distanceLeft = 0;
 
 // ===== SONIC =====
 // const Gpio = require('pigpio').Gpio;
 // const MICROSECDONDS_PER_CM = 1e6/34321;
-// var distanceLeft = 0;
 
 // const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
 // const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
@@ -228,6 +228,22 @@ function startRfid () {
       })
     } else {
       mainWindow.webContents.send('role-data', "user");
+      /*if (distanceLeft < 70) {
+
+      } else {
+        if (distanceLeft >= 100) {
+            mainWindow.webContents.send('general-info', 'Beras habis..');
+            wait(waitTime);
+            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            restartRfid();
+        } else {
+          mainWindow.webContents.send('general-info', 'Beras hampir habis..');
+          wait(waitTime);
+          mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+          restartRfid();
+        }
+      }*/
+
       rfid_table.findAll({
         where: {
           id_kartu: cardID
@@ -282,126 +298,6 @@ function startRfid () {
       })
     }
   }
-
-
-
-
-
-
-
-  // for (var i=0; i<blockIndexes.length; i++) {
-  //   if (!mfrc522.authenticate(blockIndexes[i], key, uid)) {
-  //     console.log("Authentication Error");
-  //     return;
-  //   }
-
-  //   let bufferOriginal = Buffer.from(mfrc522.getDataForBlock(blockIndexes[i]));
-  //   console.log("Block: " + blockIndexes[i] + " Data: " + bufferOriginal.toString('utf8'));
-
-    // let { beras } = store.get('windowBounds');
-    // if (blockIndexes[i] == 1) {
-    //   if (bufferOriginal.toString('utf8').includes("admn")) {
-    //     console.log('this is admin')
-    //     isAdmin = true
-    //     mainWindow.webContents.send('role-data', "admin");
-    //     mainWindow.webContents.send('admin-data', beras);
-    //   } else {
-    //     isAdmin = false
-    //     if (isTambahKartu) {
-    //       console.log('penambahaan kartu block 1');
-    //       var tambahKartuBuf = Buffer.from('user', 'utf8');
-    //       var newKartuData = [];
-
-    //       for (var i=0; i<tambahKartuBuf.length; i++) {
-    //         newKartuData.push(tambahKartuBuf[i])
-    //       }
-    //       mfrc522.writeDataToBlock(1, newKartuData)
-    //       mainWindow.webContents.send('role-data', "user");
-    //       mainWindow.webContents.send('general-info', 'Penambahan kartu berhasil!');
-    //       wait(3000);
-    //       mainWindow.webContents.send('general-info', '');
-    //       isTambahKartu = false;
-    //     }
-    //     console.log('this is not admin')
-    //     mainWindow.webContents.send('role-data', "user");
-    //   }
-    // }
-
-
-    // if (blockIndexes[i] == 4) {
-    //   if (!isAdmin) {
-    //     if (isTambahKuota) {
-    //       console.log('isTambahKuota block 4')
-    //       var tambahKuotaBuf = Buffer.from(newTambahKuota, 'utf8');
-    //       var newTambahKuotaData = [];
-
-    //       for (var i=0; i<tambahKuotaBuf.length; i++) {
-    //         newTambahKuotaData.push(tambahKuotaBuf[i])
-    //       }
-    //       mfrc522.writeDataToBlock(4, newTambahKuotaData);
-    //       mainWindow.webContents.send('general-info', 'Penambahan kuota berhasil!');
-    //       wait(3000);
-    //       mainWindow.webContents.send('general-info', '');
-    //       isTambahKuota = false;
-    //     } else if (isTambahKartu) {
-    //       console.log('isTambahKartu block 4')
-
-    //       // var resetKuotaBuf = Buffer.from('0', 'utf8');
-    //       // var newKuotaData = [];
-
-    //       // for (var i=0; i<resetKuotaBuf.length; i++) {
-    //       //   newKuotaData.push(resetKuotaBuf[i])
-    //       // }
-    //       // mfrc522.writeDataToBlock(4, newKuotaData)
-
-
-    //       isTambahKartu = false;
-    //     } else {
-    //       console.log('else block 4')
-    //       if (berasRemain > 70) {
-    //         mainWindow.webContents.send('alert', 'beras-alert');
-    //       } else {
-    //         mainWindow.webContents.send('store-data', bufferOriginal.toString('utf8'));
-    //         var intKuota = parseInt(bufferOriginal.toString('utf8'), 10);
-    //         var jatahSubs = parseInt(beras);
-
-    //         if (intKuota >= jatahSubs) {
-    //           console.log('cukup')
-    //           var newKuota = intKuota - jatahSubs;
-    //           mainWindow.webContents.send('store-data', newKuota);
-    //           var buf = Buffer.from(newKuota.toString(), 'utf8');
-    //           var newData = [];
-
-    //           for (var i=0; i<buf.length; i++) {
-    //             newData.push(buf[i])
-    //           }
-    //           mfrc522.writeDataToBlock(4, newData)
-              
-    //           console.log("STEPPER ROTATING");
-              
-    //           pinEnable.writeSync(0)
-    //           wait(925*jatahSubs)
-    //           pinEnable.writeSync(1)
-    //           // pinDir.writeSync(1)
-    //           // for (var i=0; i<(jatahSubs*35); i++) {
-    //           //   pinPulse.writeSync(1);
-    //           //   wait(10)
-    //           //   pinPulse.writeSync(0)
-    //           //   wait(10)
-    //           // }
-    //           // wait(1000);
-    //           // pinEnable.writeSync(1)
-    //           mainWindow.webContents.send('clear', 'alert');
-    //         } else {
-    //           mainWindow.webContents.send('alert', 'alert');
-    //           console.log('kurang')
-    //         } 
-    //       }
-    //     }
-    //   }
-    // }
-  // }
-
   //# Stop
   mfrc522.stopCrypto();
 }
@@ -419,17 +315,8 @@ function wait(ms){
 }
 
 function compareDate (lastTapDate) {
-  // var lastTapDateSplit = lastTapDate.toString().split(/[- :]/);
-  // var lastTap = new Date(Date.UTC(lastTapDateSplit[0], lastTapDateSplit[1]-1, lastTapDateSplit[2], lastTapDateSplit[3], lastTapDateSplit[4], lastTapDateSplit[5]));
   var now = new Date();
-
-  console.log(now)
-  console.log(lastTapDate)
-
   var getBeras = false;
-
-  console.log('day now: %s day last tap %s', now.getDate(), lastTapDate.getDate())
-
   if (lastTapDate.getDate() == now.getDate()) {
     if (lastTapDate.getMonth() == now.getMonth()) {
       if (lastTapDate.getFullYear() == now.getFullYear()) {
@@ -439,6 +326,5 @@ function compareDate (lastTapDate) {
   } else {
     getBeras = true;
   }
-  // console.log('getBeras: %s', getBeras)
   return getBeras;
 }
