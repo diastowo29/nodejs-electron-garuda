@@ -11,7 +11,7 @@ com.open(function (error) {
     //     console.log('Error while opening the port ' + error);
     // } else {
         console.log('CST port open');
-        com.write(1, function (err, result) {
+        com.write("1", function (err, result) {
             if (err) {
                 console.log('Error while sending message : ' + err);
             }
