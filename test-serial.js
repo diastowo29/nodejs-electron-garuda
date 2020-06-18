@@ -1,7 +1,7 @@
 var serialport = require("serialport"); 
 var SerialPort = serialport.SerialPort; 
 
-var com = new SerialPort(COM1, {
+var com = new SerialPort("/dev/cu.usbmodem14131", {
     baudRate: 9600,
     databits: 8,
     parity: 'none'
