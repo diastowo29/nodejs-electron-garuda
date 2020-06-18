@@ -9,6 +9,8 @@ raspi.init(() => {
     serial.on('data', (data) => {
       process.stdout.write(data);
     });
-    serial.write('a');
+    serial.write('a', (datasent) => {
+    	console.log(datasent)
+    });
   });
 });
