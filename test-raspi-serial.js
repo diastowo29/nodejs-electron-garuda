@@ -1,7 +1,7 @@
 const raspi = require('raspi');
 const Serial = require('raspi-serial').Serial;
 
-var stringToSerial = Buffer.from('s', 'utf8');
+var stringToSerial = Buffer.from('kucing', 'utf8');
 
 raspi.init(() => {
   var serial = new Serial({
