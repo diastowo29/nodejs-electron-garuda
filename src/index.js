@@ -407,7 +407,7 @@ function startRfid () {
 }
 
 function startScanSonic () {
-  trigger.trigger(10, 1);
+  // trigger.trigger(10, 1);
 }
 
 function wait(ms){
