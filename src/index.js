@@ -56,15 +56,13 @@ function initiateProgram () {
   // pinEnable.writeSync(1);
 }
 
-// Handle creating/removing shortcuts on Windows when installing/uninstalling.
-if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
+if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
 var mainWindow;
 
 const createWindow = () => {
-  // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -77,11 +75,8 @@ const createWindow = () => {
   mainWindow.setMenuBarVisibility(false);
   // mainWindow.setFullScreen(true)
 
-  // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, 'beras.html'));
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 app.on('ready', createWindow);
@@ -124,7 +119,6 @@ ipcMain.on('restart-rfid', function(event, data) {
 ipcMain.on('kosongkan-tangki', function(event, data) {
   startKosongkanTangki = data
   if (startKosongkanTangki) {
-    console.log("STEPPER ROTATING");
     // pinEnable.writeSync(0)
   } else {
     // pinEnable.writeSync(1)
