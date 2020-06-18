@@ -7,9 +7,9 @@ var com = new SerialPort("/dev/ttyAMA0", {
 }, false);
 
 com.open(function (error) {
-    if (error) {
-        console.log('Error while opening the port ' + error);
-    } else {
+    // if (error) {
+    //     console.log('Error while opening the port ' + error);
+    // } else {
         console.log('CST port open');
         com.write(1, function (err, result) {
             if (err) {
@@ -19,5 +19,5 @@ com.open(function (error) {
                 console.log('Response received after sending message : ' + result);
             }    
         });
-    }              
+    // }    
 });
