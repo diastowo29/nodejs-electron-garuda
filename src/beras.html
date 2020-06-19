@@ -52,6 +52,7 @@
 	  			<h1 id="hello" class="main-title">ATM Beras</h1>
 	  		</div>
 	  		<div class="col-md-12 center">
+	  			<p class="large-text" id="beras-warning">Beras hampir habis</p>
 	  			<p class="large-text" id="welcome-text">Silahkan tempelkan Kartu anda.</p>
 	  		</div>
   		</div>
@@ -149,6 +150,7 @@
   	$('#userdiv').hide()
 
   	// $('#subsidi').hide()
+  	$('#beras-warning').hide()
   	$('#tambahKartu').hide()
   	$('#kosongTangki').hide()
   	$('#tambah-kartu-guide').hide()
@@ -255,6 +257,17 @@
 
 	ipcRenderer.on('store-data', function (event,store) {
 	    $('#userKuota').text('Sisa kuota beras anda: ' + parseInt(store) + ' Kg')
+	});
+
+
+	ipcRenderer.on('beras-warning', function (event,store) {
+		if (store.toString().includes('habis')) {
+		    $('#beras-warning').show()
+		    $('#beras-warning').text(store)
+		} else {
+		    $('#beras-warning').hide()
+		    $('#beras-warning').text(store)
+		}
 	});
 
 	ipcRenderer.on('alert', function (event,store) {

@@ -222,21 +222,6 @@ function startRfid () {
       })
     } else {
       mainWindow.webContents.send('role-data', "user");
-      /*if (distanceLeft < 70) {
-
-      } else {
-        if (distanceLeft >= 100) {
-            mainWindow.webContents.send('general-info', 'Beras habis..');
-            wait(waitTime);
-            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
-            restartRfid();
-        } else {
-          mainWindow.webContents.send('general-info', 'Beras hampir habis..');
-          wait(waitTime);
-          mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
-          restartRfid();
-        }
-      }*/
 
       rfid_table.findAll({
         where: {
@@ -245,7 +230,7 @@ function startRfid () {
       }).then(rfid_table_find => {
         if (rfid_table_find.length > 0) {
           console.log('card found')
-          var cardPeriod = rfid_table_find[0].period;
+          var cardQuota = rfid_table_find[0].period;
           var cardLastTap = rfid_table_find[0].last_tap;
           var getBeras = false;
           if (cardLastTap === null) {
@@ -254,28 +239,62 @@ function startRfid () {
             getBeras = compareDate(cardLastTap);
           }
           if (getBeras) {
-            console.log("=== THIS CARD PERIOD: " + cardPeriod);
-            rfid_table.update({
-              status_kartu: 'AKTIF',
-              nama_kartu: 'USER',
-              last_tap: now,
-            }, {
-              where: {
-                id_kartu: cardID
+            if (distanceLeft < 50) {
+              mainWindow.webContents.send('beras-warning', '');
+              rfid_table.update({
+                status_kartu: 'AKTIF',
+                nama_kartu: 'USER',
+                last_tap: now,
+              }, {
+                where: {
+                  id_kartu: cardID
+                }
+              }).then(rfid_table_update => {
+                configuringKuotaFlag = false;
+                kuotaConfigured = 0;
+                mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardQuota + ' Liter/hari');
+                wait(waitTime);
+
+                // pinEnable.writeSync(0);
+                // wait(925*12*cardQuota);
+                // pinEnable.writeSync(1);
+
+                mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+                restartRfid();
+              })
+
+            } else {
+              if (distanceLeft >= 70) {
+                  mainWindow.webContents.send('beras-warning', 'Beras habis..');
+                  wait(waitTime);
+                  mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+                  restartRfid();
+              } else {
+                rfid_table.update({
+                  status_kartu: 'AKTIF',
+                  nama_kartu: 'USER',
+                  last_tap: now,
+                }, {
+                  where: {
+                    id_kartu: cardID
+                  }
+                }).then(rfid_table_update => {
+                  configuringKuotaFlag = false;
+                  kuotaConfigured = 0;
+                  mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardQuota + ' Liter/hari');
+                  wait(waitTime);
+
+                  // pinEnable.writeSync(0);
+                  // wait(925*12*cardQuota);
+                  // pinEnable.writeSync(1);
+                  
+                  mainWindow.webContents.send('beras-warning', 'Beras hampir habis..');
+                  wait(waitTime);
+                  mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+                  restartRfid();
+                })
               }
-            }).then(rfid_table_update => {
-              configuringKuotaFlag = false;
-              kuotaConfigured = 0;
-              mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardPeriod + ' Liter/hari');
-              wait(waitTime);
-
-              // pinEnable.writeSync(0);
-              // wait(925*12*cardPeriod);
-              // pinEnable.writeSync(1);
-
-              mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
-              restartRfid();
-            })
+            }
           } else {
             mainWindow.webContents.send('general-info', 'Anda telah mengambil beras hari ini..');
             wait(waitTime);
