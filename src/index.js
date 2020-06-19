@@ -59,7 +59,7 @@ var configuringKuotaFlag = false;
 var kuotaConfigured = 0;
 
 function initiateProgram () {
-  console.log(ip.address())
+  // console.log(ip.address())
   pinEnable.writeSync(1);
 }
 
