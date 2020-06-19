@@ -10,6 +10,13 @@ var Gpio = require('onoff').Gpio;
 const ipcMain = require('electron').ipcMain;
 var distanceLeft = 0;
 
+var tempelKartuAnda = 'Silahkan tempelkan Kartu anda.';
+var updateKartuBerhasil = 'Update kartu berhasil..';
+var sudahAmbilBeras = 'Anda telah mengambil beras hari ini..';
+var kartuTidakTerdaftar = 'Kartu tidak terdaftar...';
+var berasHabis = 'Beras habis..';
+var berasHampirHabis = 'Beras hampir habis..';
+
 // ===== SONIC =====
 // const Gpio = require('pigpio').Gpio;
 // const MICROSECDONDS_PER_CM = 1e6/34321;
@@ -197,9 +204,9 @@ function startRfid () {
           }).then(rfid_table_update => {
             configuringKuotaFlag = false;
             kuotaConfigured = 0;
-            mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
+            mainWindow.webContents.send('general-info', updateKartuBerhasil);
             wait(waitTime);
-            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('general-info', tempelKartuAnda);
             mainWindow.webContents.send('hide-welcome', true);
             // restartRfid();
           })
@@ -212,9 +219,9 @@ function startRfid () {
           }).then(rfid_table_insert => {
             configuringKuotaFlag = false;
             kuotaConfigured = 0;
-            mainWindow.webContents.send('general-info', 'Update kartu berhasil..');
+            mainWindow.webContents.send('general-info', updateKartuBerhasil);
             wait(waitTime);
-            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('general-info', tempelKartuAnda);
             mainWindow.webContents.send('hide-welcome', true);
             // restartRfid();
           });
@@ -259,15 +266,15 @@ function startRfid () {
                 // wait(925*12*cardQuota);
                 // pinEnable.writeSync(1);
 
-                mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+                mainWindow.webContents.send('general-info', tempelKartuAnda);
                 restartRfid();
               })
 
             } else {
               if (distanceLeft >= 70) {
-                  mainWindow.webContents.send('beras-warning', 'Beras habis..');
+                  mainWindow.webContents.send('beras-warning', berasHabis);
                   wait(waitTime);
-                  mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+                  mainWindow.webContents.send('general-info', tempelKartuAnda);
                   restartRfid();
               } else {
                 rfid_table.update({
@@ -288,24 +295,24 @@ function startRfid () {
                   // wait(925*12*cardQuota);
                   // pinEnable.writeSync(1);
                   
-                  mainWindow.webContents.send('beras-warning', 'Beras hampir habis..');
+                  mainWindow.webContents.send('beras-warning', berasHampirHabis);
                   wait(waitTime);
-                  mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+                  mainWindow.webContents.send('general-info', tempelKartuAnda);
                   restartRfid();
                 })
               }
             }
           } else {
-            mainWindow.webContents.send('general-info', 'Anda telah mengambil beras hari ini..');
+            mainWindow.webContents.send('general-info', sudahAmbilBeras);
             wait(waitTime);
-            mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+            mainWindow.webContents.send('general-info', tempelKartuAnda);
             restartRfid();
           }
         } else {
           // console.log('card not registered')
-          mainWindow.webContents.send('general-info', 'Kartu tidak terdaftar...');
+          mainWindow.webContents.send('general-info', kartuTidakTerdaftar);
           wait(waitTime);
-          mainWindow.webContents.send('general-info', 'Silahkan tempelkan Kartu anda.');
+          mainWindow.webContents.send('general-info', tempelKartuAnda);
           restartRfid();
         }
       })

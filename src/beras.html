@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="styles/bootstrap.min.css">
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/jquery-3.5.1.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="js/jquery-3.5.1.min.js"></script>
 	<style type="text/css">
 		.large-text {
 			font-size: xx-large;
@@ -144,9 +144,9 @@
   	var newKuota = 0;
   	var berasCount = 0;
 
-  	// $('#admindiv').show()
+  	$('#admindiv').show()
 
-  	$('#admindiv').hide()
+  	// $('#admindiv').hide()
   	$('#userdiv').hide()
 
   	// $('#subsidi').hide()
@@ -157,7 +157,7 @@
 
   	// $('#tambahKuota').hide()
   	// $('#berasKuota').text(berasCount);
-  	console.log(berasCount)
+  	// console.log(berasCount)
   	
   	function closeWindow() {
   		var r = confirm("Apa anda yakin keluar aplikasi?");
