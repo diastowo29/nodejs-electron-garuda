@@ -18,33 +18,33 @@ var berasHabis = 'Beras habis..';
 var berasHampirHabis = 'Beras hampir habis..';
 
 // ===== SONIC =====
-// const Gpio = require('pigpio').Gpio;
-// const MICROSECDONDS_PER_CM = 1e6/34321;
+const Gpio = require('pigpio').Gpio;
+const MICROSECDONDS_PER_CM = 1e6/34321;
 
-// const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
-// const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
+const trigger = new Gpio(23, {mode: Gpio.OUTPUT});
+const echo = new Gpio(24, {mode: Gpio.INPUT, alert: true});
 
-// console.log('watch')
-// trigger.digitalWrite(0);
+console.log('watch')
+trigger.digitalWrite(0);
 
-// let startTick;
+let startTick;
 
-// echo.on('alert', (level, tick) => {
-//   if (level == 1) {
-//     startTick = tick;
-//   } else {
-//     const endTick = tick;
-//     const diff = (endTick >> 0) - (startTick >> 0); // Unsigned 32 bit arithmetic
-//     console.log(diff / 2 / MICROSECDONDS_PER_CM);
-//     distanceLeft = diff / 2 / MICROSECDONDS_PER_CM;
-//   }
-// });
+echo.on('alert', (level, tick) => {
+  if (level == 1) {
+    startTick = tick;
+  } else {
+    const endTick = tick;
+    const diff = (endTick >> 0) - (startTick >> 0); // Unsigned 32 bit arithmetic
+    console.log(diff / 2 / MICROSECDONDS_PER_CM);
+    distanceLeft = diff / 2 / MICROSECDONDS_PER_CM;
+  }
+});
 // ===== SONIC =====
 
 let waitTime = 3000;
-// var pinEnable = new Gpio(13, 'out');
-// var pinDir = new Gpio(19, 'out');
-// var pinPulse = new Gpio(21, 'out');
+var pinEnable = new Gpio(13, 'out');
+var pinDir = new Gpio(19, 'out');
+var pinPulse = new Gpio(21, 'out');
 
 initiateProgram();
 const softSPI = new SoftSPI({
@@ -60,7 +60,7 @@ var kuotaConfigured = 0;
 
 function initiateProgram () {
   console.log(ip.address())
-  // pinEnable.writeSync(1);
+  pinEnable.writeSync(1);
 }
 
 if (require('electron-squirrel-startup')) {
@@ -80,7 +80,7 @@ const createWindow = () => {
   });
 
   mainWindow.setMenuBarVisibility(false);
-  // mainWindow.setFullScreen(true)
+  mainWindow.setFullScreen(true)
 
   mainWindow.loadFile(path.join(__dirname, 'beras.html'));
   // mainWindow.webContents.openDevTools();
@@ -126,9 +126,9 @@ ipcMain.on('restart-rfid', function(event, data) {
 ipcMain.on('kosongkan-tangki', function(event, data) {
   startKosongkanTangki = data
   if (startKosongkanTangki) {
-    // pinEnable.writeSync(0)
+    pinEnable.writeSync(0)
   } else {
-    // pinEnable.writeSync(1)
+    pinEnable.writeSync(1)
   }
 
 });
@@ -208,7 +208,7 @@ function startRfid () {
             wait(waitTime);
             mainWindow.webContents.send('general-info', tempelKartuAnda);
             mainWindow.webContents.send('hide-welcome', true);
-            // restartRfid();
+            restartRfid();
           })
         } else {
           rfid_table.create({
@@ -223,7 +223,7 @@ function startRfid () {
             wait(waitTime);
             mainWindow.webContents.send('general-info', tempelKartuAnda);
             mainWindow.webContents.send('hide-welcome', true);
-            // restartRfid();
+            restartRfid();
           });
         }
       })
@@ -262,9 +262,9 @@ function startRfid () {
                 mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardQuota + ' Liter/hari');
                 wait(waitTime);
 
-                // pinEnable.writeSync(0);
-                // wait(925*12*cardQuota);
-                // pinEnable.writeSync(1);
+                pinEnable.writeSync(0);
+                wait(925*12*cardQuota);
+                pinEnable.writeSync(1);
 
                 mainWindow.webContents.send('general-info', tempelKartuAnda);
                 restartRfid();
@@ -291,9 +291,9 @@ function startRfid () {
                   mainWindow.webContents.send('general-info', 'Anda mendapat subsidi: ' + cardQuota + ' Liter/hari');
                   wait(waitTime);
 
-                  // pinEnable.writeSync(0);
-                  // wait(925*12*cardQuota);
-                  // pinEnable.writeSync(1);
+                  pinEnable.writeSync(0);
+                  wait(925*12*cardQuota);
+                  pinEnable.writeSync(1);
                   
                   mainWindow.webContents.send('beras-warning', berasHampirHabis);
                   wait(waitTime);
@@ -323,7 +323,7 @@ function startRfid () {
 }
 
 function startScanSonic () {
-  // trigger.trigger(10, 1);
+  trigger.trigger(10, 1);
 }
 
 function wait(ms){
